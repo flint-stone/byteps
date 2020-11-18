@@ -42,6 +42,6 @@ OUTPUT_FILE=${OUTPUT_FILE}-imagenet
 
 export CUDA_VISIBLE_DEVICES=$DMLC_WORKER_ID  
 #nvprof --profile-child-processes  -o $OUTPUT_FILE-%p.nvvp 
-python3 /mydata/lexu/byteps/example/scripts/train_imagenet_resnet_baseline_ddp.py -a $MODEL --dist-url "tcp://${DMLC_PS_ROOT_URI}:${DMLC_PS_ROOT_PORT}" --dist-backend 'nccl' --multiprocessing-distributed --world-size $DMLC_NUM_WORKER --epochs $EPOCH --batch-size $BATCH_SIZE --rank $RANK $DATASET > ${OUTPUT_FILE}-r$RANK.log 2>&1 &
+python3 /mydata/lexu/byteps/example/scripts/train_imagenet_resnet_baseline_ddp.py -a $MODEL --dist-url "tcp://${DMLC_PS_ROOT_URI}:${DMLC_PS_ROOT_PORT}" --dist-backend 'nccl' --multiprocessing-distributed --world-size $DMLC_NUM_WORKER --epochs $EPOCH --batch-size $BATCH_SIZE --rank $RANK --gpu $DMLC_WORKER_ID $DATASET > ${OUTPUT_FILE}-r$RANK.log 2>&1 &
 
 #bpslaunch CUDA_LAUNCH_BLOCKING=1 python3 $SCRIPT --model $MODEL --num-iters $NUM_ITERS --batch-size $BATCH_SIZE > ${OUTPUT_FILE}.log 2>&1 &
